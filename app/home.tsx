@@ -11,12 +11,13 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   return (
-    <div>
-      <h1>Split Chunks</h1>
-      <div className="flex space-x-4">
-        <Link to="/">Home</Link>
-        <Link to="/editor">Go to the editor</Link>
-      </div>
+    <div className="p-4 flex space-x-1">
+      <Link to="/editor" className="underline text-blue-500">
+        Split Chunks Demo
+      </Link>
+      <Link to="/bug" className="underline text-blue-500">
+        SPA Bug
+      </Link>
     </div>
   );
 }
