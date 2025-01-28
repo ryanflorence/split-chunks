@@ -4,6 +4,7 @@ import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import { EditorProvider, useCurrentEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { useFetcher } from "react-router";
 
 export async function clientLoader(_: Route.ClientLoaderArgs) {
   return {
@@ -11,11 +12,18 @@ export async function clientLoader(_: Route.ClientLoaderArgs) {
   };
 }
 
+export async function clientAction({ request }: Route.ClientActionArgs) {
+  let formData = await request.formData();
+  let content = formData.get("content") as string;
+  localStorage.setItem("content", content);
+}
+
 export default function Editor({ loaderData }: Route.ComponentProps) {
+  let fetcher = useFetcher();
   return (
     <EditorProvider
       onUpdate={({ editor }) => {
-        localStorage.setItem("content", editor.getHTML());
+        fetcher.submit({ content: editor.getHTML() }, { method: "POST" });
       }}
       slotBefore={<MenuBar />}
       extensions={extensions}
